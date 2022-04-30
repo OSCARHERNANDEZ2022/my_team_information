@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/OSCARHERNANDEZ2022/my_team_information/issues"
   },
-  "homepage": "https://github.com/OSCARHERNANDEZ2022/my_team_information#readme"
+  "homepage": "https://github.com/OSCARHERNANDEZ2022/my_team_information#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4"
+  }
 }
