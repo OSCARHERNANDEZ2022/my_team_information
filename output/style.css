@@ -1,0 +1,26 @@
+body {
+  background-size: cover;
+  opacity: 1;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+h1 {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-style: italic;
+  font-size: x-large;
+}
+
+.jumbotron {
+  background-color: rgb(90, 73, 47);
+}
+
+.card-body {
+  border-radius: 12px;
+}
+
+.employee-card {
+  margin: 7px;
+}
