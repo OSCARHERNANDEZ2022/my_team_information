@@ -1,13 +1,16 @@
-const Manager = require("./html/manager");
-const Employee = require("./html/Employee");
+const Manager = require("./lib/manager");
+const Engineer = require("./lib/engineer");
+const Intern = require("./lib/intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+const DIST_DIR = path.resolve(__dirname, "dist");
+const distPath = path.join(DIST_DIR, "team.html");
 
-const render = require("./lib/htmlRenderer");
+const resolve = require("./lib/htmlRenderer");
+
+// Name, number and email
 
 const engagementTeam = [];
 
@@ -32,10 +35,8 @@ function validateEmail(name) {
   return "You have entered an invalid email address!";
 }
 
-//Write out validations; check out link about NaN; find out substitutes to check number validation; chain validations on first prompt
-
 function teamMember() {
-  // Ask questions to gather information about manager. Save to an manager object.
+  // questions for manager
 
   inquirer
     .prompt([
@@ -79,7 +80,7 @@ function teamMember() {
       console.log(err);
     });
 
-  // Lead or supervisor.
+  // Here you add engineer or intern if neccesary
 
   async function chooseMemberNext() {
     try {
@@ -88,75 +89,88 @@ function teamMember() {
           type: "list",
           name: "team",
           message: "Which type of team member would you like to add",
-          choices: [
-            "lead",
-            "supervisor",
-            "I don/t want to add anymore team members.",
-          ],
+          choices: ["Engineer", "Intern", "No more team members."],
         },
       ]);
 
-      // Depending on the response, loop through questions to gather information and save to appropriate object
-      if (teamChoice.team === "lead") {
+      if (teamChoice.team === "Engineer") {
         inquirer
           .prompt([
             {
               type: "input",
-              message: "What is your leads name?",
+              message: "What is your Engineer's name?",
               name: "name",
               validate: confirmName,
             },
             {
               type: "input",
-              message: "What is your leads id?",
+              message: "What is your Engineer's id?",
               name: "id",
               validate: confirmNumber,
             },
             {
               type: "input",
-              message: "What is your leads email?",
+              message: "What is your engineer's email?",
               name: "email",
               validate: validateEmail,
+            },
+            {
+              type: "input",
+              message: "What is your engineer's GitHub username?",
+              name: "github",
+              validate: confirmName,
             },
           ])
 
           .then(function (answers) {
-            let lead = new Lead(answers.name, answers.id, answers.email);
-            engagementTeam.push(lead);
+            let engineer = new Engineer(
+              answers.name,
+              answers.id,
+              answers.email,
+              answers.github
+            );
+            engagementTeam.push(engineer);
             chooseMemberNext();
           })
           .catch(function (err) {
             console.log(err);
           });
-      } else if (teamChoice.team === "supervisor") {
+      } else if (teamChoice.team === "Intern") {
         inquirer
           .prompt([
             {
               type: "input",
-              message: "What is your supervisor's name?",
+              message: "What is your intern's name?",
               name: "name",
               validate: confirmName,
             },
             {
               type: "input",
-              message: "What is your supervisors id?",
+              message: "What is your intern's id?",
               name: "id",
               validate: confirmNumber,
             },
             {
               type: "input",
-              message: "What is your supervisors email?",
+              message: "What is your intern's email?",
               name: "email",
               validate: validateEmail,
             },
+            {
+              type: "input",
+              message: "What is your intern's school?",
+              name: "school",
+              validate: confirmName,
+            },
           ])
           .then(function (answers) {
-            let Supervisor = new Supervisor(
+            let intern = new Intern(
               answers.name,
               answers.id,
-              answers.email
+              answers.email,
+              answers.school
             );
-            engagementTeam.push(supervisor);
+            engagementTeam.push(intern);
             chooseMemberNext();
           })
           .catch(function (err) {
@@ -173,8 +187,6 @@ function teamMember() {
 
 teamMember();
 
-//Call the function
-
 function generateFile() {
-  fs.writeFileSync(outputPath, render(engagementTeam), "utf-8");
+  fs.writeFileSync(distPath, resolve(engagementTeam), "utf-8");
 }

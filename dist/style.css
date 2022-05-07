@@ -1,0 +1,31 @@
+body {
+  background-size: cover;
+  opacity: 0.75;
+  background-position: center;
+  background-attachment: fixed;
+  height: 75%;
+  background-color: rgb(51, 47, 47);
+}
+
+h1 {
+  font-family: sans-serif;
+  font-style: italic;
+  font-size: xx-large;
+  font-weight: 200;
+  opacity: 0.75;
+}
+
+.jumbotron {
+  background-color: rgb(147, 161, 199);
+}
+
+.card-body {
+  border-radius: 15px;
+  color: black;
+  background-color: rgb(18, 235, 235);
+}
+
+.employee-card {
+  margin: 5px;
+  background-color: rgb(200, 200, 223);
+}
